@@ -1,0 +1,64 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Pitch Formula API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://pitch-formula-slide-api.onrender.com"
+    }
+  ],
+  "paths": {
+    "/generate-slide": {
+      "post": {
+        "operationId": "generate_strategy_slide",
+        "summary": "Creates a one-page strategy slide based on the provided details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "The name of the athlete, sport, or activation."
+                  },
+                  "vision": {
+                    "type": "string",
+                    "description": "The vision statement for this strategy."
+                  },
+                  "mission": {
+                    "type": "string",
+                    "description": "The mission statement."
+                  },
+                  "priorities": {
+                    "type": "array",
+                    "description": "List of 3 strategic priorities.",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "opportunities": {
+                    "type": "array",
+                    "description": "List of 4 key opportunities.",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["title", "vision", "mission", "priorities", "opportunities"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Slide created successfully"
+          }
+        }
+      }
+    }
+  }
+}
