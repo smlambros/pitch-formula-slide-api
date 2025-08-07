@@ -88,11 +88,13 @@ def generate_slide(req: StrategyRequest):
 
 # Custom OpenAPI schema with file return
 
-from fastapi.openapi.utils import get_openapi
+from fastapi.responses import JSONResponse
 
+@app.get("/openapi.json", response_class=JSONResponse)
 def custom_openapi():
-    if app.openapi_schema:
-        return app.openapi_schema
+    with open("openapi.json") as f:
+        data = json.load(f)
+    return JSONResponse(content=data)
 
     openapi_schema = get_openapi(
         title="Pitch Formula API",
