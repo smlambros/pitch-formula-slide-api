@@ -86,9 +86,22 @@ def generate_slide(req: StrategyRequest):
     prs.save(file_path)
     return FileResponse(file_path, media_type='application/vnd.openxmlformats-officedocument.presentationml.presentation', filename="Strategy_Slide.pptx")
     from fastapi.openapi.utils import get_openapi
-import json
 
-@app.get("/openapi.json")
+from fastapi.openapi.utils import get_openapi
+
 def custom_openapi():
-    with open("openapi.json") as f:
-        return json.load(f)
+    if app.openapi_schema:
+        return app.openapi_schema
+    openapi_schema = get_openapi(
+        title="Pitch Formula API",
+        version="1.0.0",
+        description="API for generating strategy slides",
+        routes=app.routes,
+    )
+    openapi_schema["servers"] = [
+        {"url": "https://pitch-formula-slide-api.onrender.com"}
+    ]
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
