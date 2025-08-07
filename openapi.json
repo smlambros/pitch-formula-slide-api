@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://pitch-formula-slide-api.onrender.com/openapi.json"
+      "url": "https://pitch-formula-slide-api.onrender.com"
     }
   ],
   "paths": {
