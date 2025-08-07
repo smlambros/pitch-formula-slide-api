@@ -92,15 +92,32 @@ from fastapi.openapi.utils import get_openapi
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
+
     openapi_schema = get_openapi(
         title="Pitch Formula API",
         version="1.0.0",
         description="API for generating strategy slides",
         routes=app.routes,
     )
+
+    # Add file return type to /generate-slide
+    openapi_schema["paths"]["/generate-slide"]["post"]["responses"]["200"] = {
+        "description": "PPTX file",
+        "content": {
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+                "schema": {
+                    "type": "string",
+                    "format": "binary"
+                }
+            }
+        },
+        "x-oai-return-type": "file"
+    }
+
     openapi_schema["servers"] = [
         {"url": "https://pitch-formula-slide-api.onrender.com"}
     ]
+
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
