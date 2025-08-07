@@ -1,6 +1,6 @@
-
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from fastapi.openapi.utils import get_openapi
 from pydantic import BaseModel
 from typing import List
 from pptx import Presentation
@@ -85,9 +85,8 @@ def generate_slide(req: StrategyRequest):
     file_path = "/tmp/strategy_output.pptx"
     prs.save(file_path)
     return FileResponse(file_path, media_type='application/vnd.openxmlformats-officedocument.presentationml.presentation', filename="Strategy_Slide.pptx")
-    from fastapi.openapi.utils import get_openapi
 
-from fastapi.openapi.utils import get_openapi
+# Custom OpenAPI schema with file return
 
 def custom_openapi():
     if app.openapi_schema:
@@ -100,7 +99,6 @@ def custom_openapi():
         routes=app.routes,
     )
 
-    # Add file return type to /generate-slide
     openapi_schema["paths"]["/generate-slide"]["post"]["responses"]["200"] = {
         "description": "PPTX file",
         "content": {
