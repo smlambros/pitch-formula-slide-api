@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Pitch Formula Slide Generator",
+    "title": "Pitch Formula API",
     "version": "1.0.0"
   },
   "servers": [
