@@ -10,46 +10,58 @@
     }
   ],
   "paths": {
-   "/generate-slide": {
-  "post": {
-    "operationId": "generate_strategy_slide",
-    "summary": "Creates a one-page strategy slide based on the provided details.",
-    "requestBody": {
-      "required": true,
-      "content": {
-        "application/json": {
-          "schema": {
-            "type": "object",
-            "properties": {
-              "title": { "type": "string" },
-              "vision": { "type": "string" },
-              "mission": { "type": "string" },
-              "priorities": {
-                "type": "array",
-                "items": { "type": "string" }
-              },
-              "opportunities": {
-                "type": "array",
-                "items": { "type": "string" }
+    "/generate-slide": {
+      "post": {
+        "operationId": "generate_strategy_slide",
+        "summary": "Creates a one-page strategy slide based on the provided details.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "vision": {
+                    "type": "string"
+                  },
+                  "mission": {
+                    "type": "string"
+                  },
+                  "priorities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "opportunities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["title", "vision", "mission", "priorities", "opportunities"]
               }
-            },
-            "required": ["title", "vision", "mission", "priorities", "opportunities"]
-          }
-        }
-      }
-    },
-    "responses": {
-      "200": {
-        "description": "Slide created successfully",
-        "content": {
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
-            "schema": {
-              "type": "string",
-              "format": "binary"
             }
           }
         },
-        "x-oai-return-type": "file"
+        "responses": {
+          "200": {
+            "description": "Slide created successfully",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "x-oai-return-type": "file"
+          }
+        }
       }
     }
   }
