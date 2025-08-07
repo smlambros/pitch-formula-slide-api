@@ -88,6 +88,8 @@ def generate_slide(req: StrategyRequest):
 
 # Custom OpenAPI schema with file return
 
+from fastapi.openapi.utils import get_openapi
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -99,6 +101,11 @@ def custom_openapi():
         routes=app.routes,
     )
 
+    openapi_schema["servers"] = [
+        {"url": "https://pitch-formula-slide-api.onrender.com"}
+    ]
+
+    # 💡 Add the response schema for file download
     openapi_schema["paths"]["/generate-slide"]["post"]["responses"]["200"] = {
         "description": "PPTX file",
         "content": {
@@ -111,10 +118,6 @@ def custom_openapi():
         },
         "x-oai-return-type": "file"
     }
-
-    openapi_schema["servers"] = [
-        {"url": "https://pitch-formula-slide-api.onrender.com"}
-    ]
 
     app.openapi_schema = openapi_schema
     return app.openapi_schema
