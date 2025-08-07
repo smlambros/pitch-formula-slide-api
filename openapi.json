@@ -1,56 +1,28 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.0.1",
   "info": {
     "title": "Pitch Formula API",
+    "description": "API for generating strategy slides",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "https://pitch-formula-slide-api.onrender.com"
-    }
-  ],
   "paths": {
     "/generate-slide": {
       "post": {
-        "operationId": "generate_strategy_slide",
-        "summary": "Creates a one-page strategy slide based on the provided details.",
+        "summary": "Generate Slide",
+        "operationId": "generate_slide_generate_slide_post",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "title": {
-                    "type": "string"
-                  },
-                  "vision": {
-                    "type": "string"
-                  },
-                  "mission": {
-                    "type": "string"
-                  },
-                  "priorities": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  },
-                  "opportunities": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": ["title", "vision", "mission", "priorities", "opportunities"]
+                "$ref": "#/components/schemas/StrategyRequest"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Slide created successfully",
+            "description": "PPTX file",
             "content": {
               "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
                 "schema": {
@@ -60,9 +32,71 @@
               }
             },
             "x-oai-return-type": "file"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
     }
-  }
+  },
+  "components": {
+    "schemas": {
+      "StrategyRequest": {
+        "type": "object",
+        "required": ["title", "vision", "mission", "priorities", "opportunities"],
+        "properties": {
+          "title": { "type": "string" },
+          "vision": { "type": "string" },
+          "mission": { "type": "string" },
+          "priorities": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "opportunities": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "HTTPValidationError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "properties": {
+          "loc": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                { "type": "string" },
+                { "type": "integer" }
+              ]
+            }
+          },
+          "msg": { "type": "string" },
+          "type": { "type": "string" }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://pitch-formula-slide-api.onrender.com"
+    }
+  ]
 }
