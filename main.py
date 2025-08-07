@@ -85,3 +85,10 @@ def generate_slide(req: StrategyRequest):
     file_path = "/tmp/strategy_output.pptx"
     prs.save(file_path)
     return FileResponse(file_path, media_type='application/vnd.openxmlformats-officedocument.presentationml.presentation', filename="Strategy_Slide.pptx")
+    from fastapi.openapi.utils import get_openapi
+import json
+
+@app.get("/openapi.json")
+def custom_openapi():
+    with open("openapi.json") as f:
+        return json.load(f)
