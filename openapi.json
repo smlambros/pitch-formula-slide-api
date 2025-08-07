@@ -54,9 +54,13 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Slide created successfully"
-          }
+  "200": {
+    "description": "Slide created successfully",
+    "content": {
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+        "schema": {
+          "type": "string",
+          "format": "binary"
         }
       }
     }
